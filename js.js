@@ -168,9 +168,48 @@ var fibonaccif = function(num1, num2){
 	}
 }
 
+var counter = function(value){
+  return {
+  	up: function () {
+  		value += 1;
+  		return value;
+  	},
+  	down: function () {
+  		value -= 1;
+  		return value;
+  	}
+  };
+	
+}
 
 
+var revocable = function(binary){
+	return {
+		invoke : function(first, second){
+			if (binary !== undefined){
+			  return binary(first, second);
+		    }
+		},
+		revoke: function(){
+			binary = undefined;
+		}
+	};
+}
 
+var rev = revocable(add);
+var add_rev = rev.invoke;
+
+var m = function(value, source){
+	return {
+		value : value,
+		source: (typeof source === 'string') ? source : String(value)
+	};
+}
+
+var addm = function(a, b){
+  return m(a.value + b.value, "(" + a.source + "+" + b.source + ")" );
+
+}
 
 
 
