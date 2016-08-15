@@ -30,3 +30,161 @@ var liftf = function(binary){
 		}
 	}
 }
+
+var curry = function(binary, first){
+	return function(second){
+		return binary(first, second);
+	}
+}
+
+var inc = curry(add, 1);
+
+
+var twice = function(binary){
+	return function(a){
+		return binary(a, a);
+	}
+}
+
+var doubl = twice(add);
+
+var square = twice(mul);
+
+var reverse = function(binary){
+	return function(first, second){
+		return binary(second, first);
+	}
+}
+
+var composeu = function(f, g){
+	return function(a){
+      return g(f(a)); 
+	}
+}
+
+var composeb = function(f, g){
+	return function(a, b, c){
+		return g(f(a, b), c);
+	}
+}
+
+var limit = function(binary, count){
+	return function (a, b){
+		if (count >= 1){
+			count -= 1;
+			return binary(a, b);
+			
+		}
+		else{
+			return undefined;
+		};
+	}
+}
+
+var from = function (start){
+	return function(){
+	  var next = start;
+	  start += 1;
+	  return next;
+   }
+}
+
+var to = function(gen, end){
+	return function(){
+		var value = gen();
+		if(value < end){
+		  return value;
+	    }
+	    else{
+	    	return undefined;
+	    }
+	}
+}
+
+var fromTo = function(start, end){
+		return to( from(start), end);
+	
+}
+
+var element = function(arr, gen){
+	gen = gen || fromTo(start, arr.length);
+	return function(){
+		var index = gen();
+		if (index !== undefined) {
+			return array[index];
+		}
+	};
+}
+
+var collect = function(gen, arr){
+	return function(){
+		var value = gen();
+		if(value !== undefined){
+		  arr.push(value);
+	    }
+		return value;
+	}
+}
+
+var filter = function (gen, pred){
+  return function recur(){	    
+    value = gen();
+	if(value === undefined || pred(value)){
+	  return value;
+	}
+    return recur();
+  }
+}
+
+var concat = function(gen1, gen2){
+	return function(){
+		var value = gen1();
+		if(value === undefined){
+			return gen2();
+		}
+		else{
+			return value;
+		}
+	}
+}
+
+var gensymf = function(prefix){
+	var value = from(0);
+	var number;
+
+	return function(){
+		number = value();
+		return prefix + number;
+	}
+}
+
+var fibonaccif = function(num1, num2){
+	var answer;
+	return function(){
+      answer = num1 + num2;
+      num1 = num2;
+      num2 = answer;
+      return answer;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
