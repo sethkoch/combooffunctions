@@ -211,10 +211,74 @@ var addm = function(a, b){
 
 }
 
+var liftm = function(binary, op){
+	return function(a, b){
+		if(typeof a === 'number'){
+			a = m(a);
+		}
+		if(typeof b === 'number'){
+			b = m(b);
+		}
+		
+		return m(binary(a.value, b.value),
+			"(" + a.source + op + b.source + ")"
+		);
+	};
+}
 
+var exp = function(value){
 
+	return (Array.isArray(value))
+		? value[0](exp(value[1]), exp(value[2])) : value;
+}
 
+var addg = function(first){
+	function more(next){
+		if(next !== undefined){
+			return first;
+		}
+		first += next;
+		return more;
+	}
+	if(first !== undefined){
+		return more;
+	}
+}
 
+var liftg = function(binary){
+	return function (first){
+		if(first === undefined){
+			return first;
+		}
+
+		return function more(next){
+			if (next === undefined){
+				return first;
+			}
+			first = binary(first, next);
+			return more;
+		};
+	};
+}
+
+var arrayg = function(first){
+	var array = [];
+	function more(next){
+		if(next === undefined){
+			return array;
+		}
+		array.push(next);
+		return more;
+	}
+	return more(first);
+
+}
+
+var continuize = function(func){
+	return function(callback, argument){
+		callback(func(argument));
+	}
+}
 
 
 
