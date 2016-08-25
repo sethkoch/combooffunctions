@@ -281,10 +281,58 @@ var continuize = function(func){
 }
 
 
+function bar(x, y){
+	var z;
+	y = 5;
+	foo(x);
+	return z;
+	function foo(){
+		y++;
+		z = x * y;
+	}
+}
+
+function foo(a,b){
+	return function(){
+		return a + b;
+	}
+}
+
+function mul(){
+	args = [].slice.call(arguments);
+	if(Array.isArray(args[0])){
+		args = args[0].slice(0);
+	}
+
+	if(args.length <= 2 ){
+		return args[0] * args[1];
+	}
+
+	return args[0] * mul(args.slice(1));
+}
 
 
+function poop(value){
+	return function(){
+		return value;
+	}
+}
 
+function caca(first, second){
+	return first + second;
+}
 
+function caca2(fn1, fn2){
+	return caca(fn1(),fn2());
+}
+
+function addCaca(arr){
+	if(arr.length <= 2){
+		return caca2(arr[0], arr[1]);
+	}
+	return caca2(arr[0], addCaca(arr.slice(1)));
+
+}
 
 
 
