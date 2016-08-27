@@ -335,6 +335,110 @@ function addCaca(arr){
 }
 
 
+// computer science in 5 hours with brian holt
+
+// recursive factorial
+
+
+
+function factorial(num){
+ 	if(num === 1){
+ 		return 1;
+ 	}
+ 	return num * factorial(num -1);
+}
+
+
+// inefficient, never to be used, bubbleSort with a do while loop
+function bubbleSort(arr){
+	var temp;
+	do{
+		var sorted = false;
+		for(var i = 0; i < arr.length; i++){
+			if(arr[i] > arr[i+1]){
+				temp = arr[i];
+				arr[i] = arr[i + 1];
+				arr[i + 1] = temp;
+				sorted = true;
+			}
+		}while(sorted);
+
+	}
+	return arr;
+}
+
+// insertion loop, loop through the unsorted array, take the first number, and build a new list add the 
+// next numbers to the left or right of the number, then do again, until sorted.
+
+var insertionSort = function(arr){
+	var temp;
+	for(var i = 1; i < arr.length; i++){
+		for(var j = 0; j < arr.length; j++){
+			if(arr[i] < arr[j]){
+				temp = arr.splice(i,1);
+				arr.splice(j, 0, temp[0]);
+			}
+			
+		
+	     }
+	}
+	return arr;
+}
+
+
+var mergeSort = (arr) => {
+	if(arr.length < 2){
+		return arr;
+	}
+
+	var len = arr.length;
+	var middle = Math.floor(len / 2);
+	var left = arr.slice(0, middle);
+	var right = arr.slice(middle);
+
+	return stitch(mergeSort(left), mergeSort(right));
+}
+
+var stitch = (left, right) => {
+	var returnArray = [];
+	while(left.length && right.length){
+		if(left[0] <= right[0]){
+			returnArray.push(left.shift());
+		}
+		else{
+			returnArray.push(right.shift());
+		}
+	}
+	while(left.length){
+		returnArray.push(left.shift());
+	}
+	while(right.length){
+		returnArray.push(right.shift());
+	}
+	return returnArray;
+}
+
+
+var quicksort = function(arr){
+	if(arr.length < 2){
+		return arr;
+	}
+	var pivot = arr[arr.length-1];
+	var pivotLeft = [];
+	var pivotRight = [];
+	for(var i = 0; i < arr.length-1; i ++){
+		if(arr[i] <= pivot){
+			pivotLeft.push(arr[i]);
+		}
+		else{
+			pivotRight.push(arr[i]);
+		}
+	}
+	return quicksort(pivotLeft).concat(pivot, quicksort(right));
+
+}
+
+
 
 
 
